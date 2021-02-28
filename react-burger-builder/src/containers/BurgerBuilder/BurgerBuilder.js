@@ -24,6 +24,7 @@ class BurgerBuilder extends Component {
       },
       totalPrice: 4,
       purchasable: false,
+      purchasing: false,
     };
 
     this.updatedPurchaseState = function (ingredients) {
@@ -68,6 +69,13 @@ class BurgerBuilder extends Component {
       this.setState({ totalPrice: newPrice, ingredients: updatedIngredients });
       this.updatedPurchaseState(updatedIngredients);
     };
+
+    // this.purchaseHandler = function () {  // this function syntax will not work if triggered though a click event due to keyword this not referring to the class
+    //   this.setState({ purchasing: true });
+
+    this.purchaseHandler = () => {
+      this.setState({ purchasing: true });
+    };
   }
 
   render() {
@@ -79,7 +87,7 @@ class BurgerBuilder extends Component {
     }
     return (
       <Aux>
-        <Modal>
+        <Modal show={this.state.purchasing}>
           <OrderSummary ingredients={this.state.ingredients} />
         </Modal>
         <Burger ingredients={this.state.ingredients} />
@@ -88,6 +96,7 @@ class BurgerBuilder extends Component {
           ingredientRemoved={this.removeIngredientHandler}
           disabled={disabledInfo}
           purchasable={this.state.purchasable}
+          ordered={this.purchaseHandler}
           price={this.state.totalPrice}
         />
       </Aux>
